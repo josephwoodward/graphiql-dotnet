@@ -1,10 +1,10 @@
-# graphiql-dotnet
+# GraphiQL.NET
 
-GraphiQL middleware for .NET Core
+GraphiQL middleware for ASP.NET Core
 
 ## What is GraphiQL?
 
-GraphiQL an in-browser IDE for exploring GraphQL ([see here]( https://github.com/graphql/graphiql). Normally in order to set GraphiQL up you need to do so via Node.
+GraphiQL an in-browser IDE for exploring GraphQL ([see here]( https://github.com/graphql/graphiql)). Normally in order to set GraphiQL up you need to do so via Node.
 
 ## What is GraphiQL.NET?
 
