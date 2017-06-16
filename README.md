@@ -14,7 +14,7 @@ GraphiQL.NET saves you from needing any additional dependencies by allowing you 
 
 Adding GraphiQL.NET to your ASP.NET Core application couldn't be easier, simply call `app.UseGraphiQl()` from your `Configure` method in your `startup.cs` file.
 
-**Note: Be sure to call `UseGraphiQl` before `UseMvc()`.**
+**Note: Be sure to call `UseGraphiQl()` before `UseMvc()`.**
 
 ```csharp
 
