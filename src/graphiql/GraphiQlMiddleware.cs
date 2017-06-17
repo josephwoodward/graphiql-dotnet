@@ -1,5 +1,7 @@
 ﻿using System;
 using System.IO;
+using System.Reflection;
+using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 
@@ -18,23 +20,29 @@ namespace graphiql
 
         public async Task Invoke(HttpContext context)
         {
-            var config = new GraphiQlConfig();
-            _setConfig(config);
-
-            if (!HttpMethods.IsGet(context.Request.Method))
-                return;
-
-            if (!context.Request.Path.Value.Contains(config.Path))
-                return;
-
             try
             {
+                var config = new GraphiQlConfig();
+                _setConfig(config);
+
+                if (!HttpMethods.IsGet(context.Request.Method))
+                    return;
+
+                if (!context.Request.Path.Value.Contains(config.Path))
+                    return;
+
                 context.Response.ContentType = "text/html";
                 context.Response.StatusCode = 200;
-                var root = Directory.GetCurrentDirectory();
-                var res = File.ReadAllBytes(root + "/middleware/content/index.html");
-                var result = System.Text.Encoding.UTF8.GetString(res);
-                await context.Response.WriteAsync(result);
+
+                var assembly = typeof(graphiql.GraphiQlExtensions).GetTypeInfo().Assembly;
+                string[] names = assembly.GetManifestResourceNames();
+                Stream resource = assembly.GetManifestResourceStream("graphiql.content.index.html");
+
+                
+                using (var result = new StreamReader(resource))
+                {
+                    await context.Response.WriteAsync(result.ReadToEnd());
+                }
             }
             catch (Exception e)
             {

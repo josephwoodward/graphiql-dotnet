@@ -5,6 +5,7 @@ namespace graphiql
 {
     public static class GraphiQlExtensions
     {
+        private const string DefaultPath = "/graphql";
         public static IApplicationBuilder UseGraphiQl(this IApplicationBuilder app)
         {
             return UseGraphiQl(app, null);
@@ -12,7 +13,7 @@ namespace graphiql
 
         private static IApplicationBuilder UseGraphiQl(this IApplicationBuilder app, string path)
         {
-            return UseGraphiQlImp(app, x => x.SetPath(path));
+            return UseGraphiQlImp(app, x => x.SetPath(path ?? DefaultPath));
         }
 
         private static IApplicationBuilder UseGraphiQlImp(this IApplicationBuilder app, Action<GraphiQlConfig> config)
