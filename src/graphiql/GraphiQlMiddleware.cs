@@ -34,7 +34,7 @@ namespace graphiql
                 context.Response.ContentType = "text/html";
                 context.Response.StatusCode = 200;
 
-                var assembly = typeof(graphiql.GraphiQlExtensions).GetTypeInfo().Assembly;
+                var assembly = typeof(Microsoft.AspNetCore.Builder.GraphiQlExtensions).GetTypeInfo().Assembly;
                 string[] names = assembly.GetManifestResourceNames();
                 Stream resource = assembly.GetManifestResourceStream("graphiql.assets.index.html");
 

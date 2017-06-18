@@ -1,7 +1,7 @@
 ﻿using System;
-using Microsoft.AspNetCore.Builder;
+using graphiql;
 
-namespace graphiql
+namespace Microsoft.AspNetCore.Builder
 {
     public static class GraphiQlExtensions
     {
