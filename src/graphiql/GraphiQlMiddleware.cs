@@ -36,7 +36,7 @@ namespace graphiql
 
                 var assembly = typeof(graphiql.GraphiQlExtensions).GetTypeInfo().Assembly;
                 string[] names = assembly.GetManifestResourceNames();
-                Stream resource = assembly.GetManifestResourceStream("graphiql.content.index.html");
+                Stream resource = assembly.GetManifestResourceStream("graphiql.assets.index.html");
 
                 
                 using (var result = new StreamReader(resource))
