@@ -1,6 +1,14 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
+
   <PropertyGroup>
     <TargetFramework>netstandard1.6</TargetFramework>
+    <VersionPrefix>1.0.0</VersionPrefix>
+    <Authors>Joseph Woodward</Authors>
+    <Description>GraphiQL available as middleware for ASP.NET Core</Description>
+    <PackageTags>asp.net core;graphql;.net core;graphiql</PackageTags>
+    <PackageProjectUrl>https://github.com/JosephWoodward/graphiql-dotnet</PackageProjectUrl>
+    <PackageLicenseUrl>https://github.com/jchannon/Botwin/blob/master/LICENSE</PackageLicenseUrl>
+
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="1.1.0" />
