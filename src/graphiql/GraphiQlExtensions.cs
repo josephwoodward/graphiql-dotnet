@@ -8,15 +8,18 @@ namespace Microsoft.AspNetCore.Builder
 {
     public static class GraphiQlExtensions
     {
-        private const string DefaultPath = "/graphql";
         public static IApplicationBuilder UseGraphiQl(this IApplicationBuilder app)
         {
-            return UseGraphiQl(app, null);
+            return UseGraphiQl(app, "/graphql");
         }
 
-        private static IApplicationBuilder UseGraphiQl(this IApplicationBuilder app, string path)
+        public static IApplicationBuilder UseGraphiQl(this IApplicationBuilder app, string path)
         {
-            return UseGraphiQlImp(app, x => x.SetPath(path ?? DefaultPath));
+            if (string.IsNullOrWhiteSpace(path))
+                throw new ArgumentException(nameof(path));
+
+            path = path.StartsWith("/") ? path : "/" + path;
+            return UseGraphiQlImp(app, x => x.SetPath(path));
         }
 
         private static IApplicationBuilder UseGraphiQlImp(this IApplicationBuilder app, Action<GraphiQlConfig> setConfig)
@@ -30,12 +33,13 @@ namespace Microsoft.AspNetCore.Builder
             setConfig(config);
 
             var assembly = typeof(Microsoft.AspNetCore.Builder.GraphiQlExtensions).GetTypeInfo().Assembly;
+            string[] names = assembly.GetManifestResourceNames();
                 
             var fileServerOptions = new FileServerOptions
             {
                 RequestPath = config.Path,
-                FileProvider = new EmbeddedFileProvider(assembly, "graphiql...assets"),
-                EnableDefaultFiles = true, // serve index.html at config.Path/
+                FileProvider = new EmbeddedFileProvider(assembly, "graphiql.assets"),
+                EnableDefaultFiles = true
             };
 
             fileServerOptions.StaticFileOptions.ContentTypeProvider = new FileExtensionContentTypeProvider();
