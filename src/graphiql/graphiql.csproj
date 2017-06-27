@@ -9,7 +9,7 @@
     <VersionPrefix>1.0.0</VersionPrefix>
     <Authors>Joseph Woodward</Authors>
     <Description>GraphiQL available as middleware for ASP.NET Core</Description>
-    <PackageIconUrl>https://raw.github.com/JosephWoodward/graphiql-dotnet/master/assets/logo_128_128.png</PackageIconUrl>
+    <PackageIconUrl>https://raw.githubusercontent.com/JosephWoodward/graphiql-dotnet/master/assets/logo_128_128.png</PackageIconUrl>
     <PackageProjectUrl>https://github.com/JosephWoodward/graphiql-dotnet</PackageProjectUrl>
     <PackageLicenseUrl>https://github.com/JosephWoodward/graphiql-dotnet/blob/master/LICENSE</PackageLicenseUrl>
   </PropertyGroup>
