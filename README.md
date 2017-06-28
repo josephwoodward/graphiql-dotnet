@@ -1,10 +1,20 @@
 # GraphiQL.NET
 
-GraphiQL middleware for ASP.NET Core
+GraphiQL middleware for ASP.NET Core - try the [live demo here](http://graphql.org/swapi-graphql/)
 
 ## What is GraphiQL?
 
 GraphiQL an in-browser IDE for exploring GraphQL ([see here]( https://github.com/graphql/graphiql)). Normally in order to set GraphiQL up you need to do so via Node.
+
+GraphiQL features include:
+
+- Syntax highlighting
+- Intelligent type ahead of fields, arguments, types, and more.
+- Real-time error highlighting and reporting.
+- Automatic query completion.
+- Run and inspect query results.
+
+![GraphiQL for ASP.NET Core](https://raw.githubusercontent.com/JosephWoodward/graphiql-dotnet/master/assets/screenshot.png)
 
 ## What is GraphiQL.NET?
 
@@ -22,7 +32,6 @@ public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerF
 {
     app.UseGraphiQl();
 
-    app.UseStaticFiles();
     app.UseMvc();
 }
 ```
