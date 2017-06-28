@@ -2,7 +2,7 @@
 
 # GraphiQL.NET
 
-GraphiQL middleware for ASP.NET Core - try the [live demo here](http://graphql.org/swapi-graphql/)
+GraphiQL middleware for ASP.NET Core - try the [live demo here](http://graphql.org/swapi-graphql/).
 
 ## What is GraphiQL?
 
@@ -28,12 +28,15 @@ The GraphiQL.NET middleware can be [found on NuGet here](https://www.nuget.org/p
 
 You can install GraphiQL.NET by copying and pasting the following command into your Package Manager Console within Visual Studio (Tools > NuGet Package Manager > Package Manager Console).
 
-`Install-Package graphiql`
+```
+Install-Package graphiql
+```
 
 Alternatively you can install it using the .NET Core CLI using the following command:
 
-`dotnet add package graphiql`
-
+```
+dotnet add package graphiql
+```
 
 ## Getting Started
 
