@@ -1,3 +1,5 @@
+![](https://raw.githubusercontent.com/JosephWoodward/graphiql-dotnet/master/assets/logo_128_128.png)
+
 # GraphiQL.NET
 
 GraphiQL middleware for ASP.NET Core - try the [live demo here](http://graphql.org/swapi-graphql/)
@@ -20,9 +22,22 @@ GraphiQL features include:
 
 GraphiQL.NET saves you from needing any additional dependencies by allowing you to include the GraphiQL in-browser editor directly into your ASP.NET Core application via middleware, allowing you to explore and test your GraphQL endpoint with ease.
 
+## Installation
+
+The GraphiQL.NET middleware can be [found on NuGet here](https://www.nuget.org/packages/graphiql/)
+
+You can install GraphiQL.NET by copying and pasting the following command into your Package Manager Console within Visual Studio (Tools > NuGet Package Manager > Package Manager Console).
+
+`Install-Package graphiql`
+
+Alternatively you can install it using the .NET Core CLI using the following command:
+
+`dotnet add package graphiql`
+
+
 ## Getting Started
 
-Adding GraphiQL.NET to your ASP.NET Core application couldn't be easier, simply call `app.UseGraphiQl()` from your `Configure` method in your `Startup.cs` file.
+Once installed you can add GraphiQL.NET to your ASP.NET Core application by adding the `app.UseGraphiQl()` middleware to the `Configure` method within your `Startup.cs` file.
 
 **Note: Be sure to call `UseGraphiQl()` before `UseMvc()`.**
 
