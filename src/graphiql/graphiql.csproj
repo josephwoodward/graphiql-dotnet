@@ -5,7 +5,7 @@
     <PackageId>GraphiQL</PackageId>
     <PackageTags>graphql;graphiql;asp.net core;.net core</PackageTags>
     <title>GraphiQL ASP.NET Core Middleware</title>
-    <TargetFramework>netstandard1.6</TargetFramework>
+    <TargetFramework>netstandard2.0</TargetFramework>
     <VersionPrefix>1.0.0</VersionPrefix>
     <Authors>Joseph Woodward</Authors>
     <Description>GraphiQL available as middleware for ASP.NET Core</Description>
@@ -14,9 +14,9 @@
     <PackageLicenseUrl>https://github.com/JosephWoodward/graphiql-dotnet/blob/master/LICENSE</PackageLicenseUrl>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="1.1.0" />
-    <PackageReference Include="Microsoft.Extensions.FileProviders.Embedded" Version="1.1.0" />
-    <PackageReference Include="Microsoft.AspNetCore.StaticFiles" Version="1.1.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="2.0.0" />
+    <PackageReference Include="Microsoft.Extensions.FileProviders.Embedded" Version="2.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore.StaticFiles" Version="2.0.0" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="./assets/**/*.*" />
