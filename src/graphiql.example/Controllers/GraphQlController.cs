@@ -19,6 +19,7 @@ namespace graphiql.example.Controllers
             {
                 x.Schema = schema;
                 x.Query = query.Query;
+                x.Inputs = query.Variables;
             });
     
             if (result.Errors?.Count > 0)
