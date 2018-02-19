@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace graphiql.example.Controllers
 {
-    [Route("graphql")]
+    [Route(Startup.GraphQLPath)]
     public class GraphQlController : Controller
     {
         [HttpPost]
