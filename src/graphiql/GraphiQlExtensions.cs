@@ -18,7 +18,6 @@ namespace Microsoft.AspNetCore.Builder
             if (string.IsNullOrWhiteSpace(path))
                 throw new ArgumentException(nameof(path));
 
-            path = path.StartsWith("/") ? path : "/" + path;
             return UseGraphiQlImp(app, x => x.SetPath(path));
         }
 
