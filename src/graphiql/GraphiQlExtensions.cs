@@ -1,34 +1,30 @@
 ﻿using System;
-using System.ComponentModel;
-using System.IO;
-using System.Linq;
-using System.Net.NetworkInformation;
 using System.Reflection;
-using System.Runtime.InteropServices.ComTypes;
-using System.Security.Cryptography;
-using System.Text;
-using System.Xml.Linq;
-using graphiql;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.StaticFiles;
 using Microsoft.Extensions.FileProviders;
 
-namespace Microsoft.AspNetCore.Builder
+namespace GraphiQl
 {
     public static class GraphiQlExtensions
     {
-        internal const string DefaultGraphQLPath = "/graphql";
-
+        private const string DefaultPath = "/graphql";
+        
         public static IApplicationBuilder UseGraphiQl(this IApplicationBuilder app)
-        {
-            return UseGraphiQl(app, DefaultGraphQLPath);
-        }
+            => UseGraphiQl(app, DefaultPath);
 
         public static IApplicationBuilder UseGraphiQl(this IApplicationBuilder app, string path)
+            => UseGraphiQlIml(app, path);
+        
+        private static IApplicationBuilder UseGraphiQlIml(this IApplicationBuilder app, string path)
         {
             if (string.IsNullOrWhiteSpace(path))
                 throw new ArgumentException(nameof(path));
 
-            path = path.StartsWith("/") ? path : "/" + path;
+            var p = path.EndsWith("/") ? path : $"{path}/" + "graphql-path.js";
+            app.Map(p, x => WritePathJavaScript(x, path));
+
             return UseGraphiQlImp(app, x => x.SetPath(path));
         }
 
@@ -46,7 +42,7 @@ namespace Microsoft.AspNetCore.Builder
             var fileServerOptions = new FileServerOptions
             {
                 RequestPath = config.Path,
-                FileProvider = GetFileProvider(config.Path),
+                FileProvider = BuildFileProvider(),
                 EnableDefaultFiles = true,
                 StaticFileOptions = {ContentTypeProvider = new FileExtensionContentTypeProvider()}
             };
@@ -56,36 +52,25 @@ namespace Microsoft.AspNetCore.Builder
             return app;
         }
 
-        private static IFileProvider GetFileProvider(string graphqlPath)
+        private static IFileProvider BuildFileProvider()
         {
-            IFileProvider fileProvider;
-
-            var assembly = typeof(Microsoft.AspNetCore.Builder.GraphiQlExtensions).GetTypeInfo().Assembly;
+            var assembly = typeof(GraphiQlExtensions).GetTypeInfo().Assembly;
             var embeddedFileProvider = new EmbeddedFileProvider(assembly, "graphiql.assets");
 
-            if (graphqlPath.Equals(DefaultGraphQLPath, StringComparison.OrdinalIgnoreCase))
-            {
-                fileProvider = embeddedFileProvider;
-            }
-            else
-            {
-                string javascriptCode = $"var graphqlPath='{graphqlPath}';";
-
-                string dir = Path.Combine(Path.GetTempPath(), "graphiql-dotnet");
-                if (!Directory.Exists(dir)) Directory.CreateDirectory(dir);
-                string file = $"{dir}/graphql-path.js";
-
-                File.WriteAllText(file, javascriptCode, Encoding.UTF8);
-
-                var physicalFileProvider = new PhysicalFileProvider(dir);
-
-                fileProvider = new CompositeFileProvider(
-                    embeddedFileProvider,
-                    physicalFileProvider
-                );
-            }
+            var fileProvider = new CompositeFileProvider(
+                embeddedFileProvider
+            );
 
             return fileProvider;
+        }
+
+        private static void WritePathJavaScript(IApplicationBuilder app, string path)
+        {
+            app.Run(h =>
+            {
+                h.Response.ContentType = "application/javascript";
+                return h.Response.WriteAsync($"var graphqlPath='{path}';");
+            });
         }
     }
 }
