@@ -55,3 +55,11 @@ public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerF
 ```
 
 After that simply navigate to `/graphql` in your browser to start using GraphiQL.
+
+## Configuration
+
+By default GraphiQL lives on the aforementioned `/graphql` endpoint, however it can be changed by passing your chosen path to the `app.UseGraphiQl();` entry point method:
+
+```csharp
+app.UseGraphiQl('/whatever/graphiql');
+```
