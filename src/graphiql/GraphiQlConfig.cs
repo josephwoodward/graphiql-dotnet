@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Net;
 
-namespace graphiql
+namespace GraphiQl
 {
     public class GraphiQlConfig
     {

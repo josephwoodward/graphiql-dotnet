@@ -1,18 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Builder;
+﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
 
-namespace graphiql.example
+namespace GraphiQl.example
 {
     public class Startup
     {
+        public const string GraphQlPath = "/graphql";
+        
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -29,7 +26,7 @@ namespace graphiql.example
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
-            app.UseGraphiQl();
+            app.UseGraphiQl(GraphQlPath);
             app.UseMvc();
         }
     }

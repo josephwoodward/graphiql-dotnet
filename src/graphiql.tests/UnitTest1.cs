@@ -1,7 +1,7 @@
 using System;
 using Xunit;
 
-namespace graphiql.tests
+namespace GraphiQl.tests
 {
     public class UnitTest1
     {
