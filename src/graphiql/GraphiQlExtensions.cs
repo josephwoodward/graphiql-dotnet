@@ -14,18 +14,17 @@ namespace GraphiQl
         public static IApplicationBuilder UseGraphiQl(this IApplicationBuilder app)
             => UseGraphiQl(app, DefaultPath);
 
-        public static IApplicationBuilder UseGraphiQl(this IApplicationBuilder app, string path)
-            => UseGraphiQlIml(app, path);
-        
-        private static IApplicationBuilder UseGraphiQlIml(this IApplicationBuilder app, string path)
+        /// <param name="apiPath">In some scenarios it makes sense to specify the API path and file server path independently
+        /// Examples: hosting in IIS in a virtual application (myapp.com/1.0/...) or hosting API and documentation separately</param>
+        public static IApplicationBuilder UseGraphiQl(this IApplicationBuilder app, string fileServerPath, string apiPath = null)
         {
-            if (string.IsNullOrWhiteSpace(path))
-                throw new ArgumentException(nameof(path));
+            if (string.IsNullOrWhiteSpace(fileServerPath))
+                throw new ArgumentException(nameof(fileServerPath));
 
-            var p = path.EndsWith("/") ? path : $"{path}/" + "graphql-path.js";
-            app.Map(p, x => WritePathJavaScript(x, path));
+            var p = fileServerPath.EndsWith("/") ? fileServerPath : $"{fileServerPath}/" + "graphql-path.js";
+            app.Map(p, x => WritePathJavaScript(x, apiPath ?? fileServerPath));
 
-            return UseGraphiQlImp(app, x => x.SetPath(path));
+            return UseGraphiQlImp(app, x => x.SetPath(fileServerPath));
         }
 
         private static IApplicationBuilder UseGraphiQlImp(this IApplicationBuilder app,
