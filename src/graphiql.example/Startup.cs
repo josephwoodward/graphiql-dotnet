@@ -27,6 +27,7 @@ namespace GraphiQl.example
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
             app.UseGraphiQl(GraphQlPath);
+            /*app.UseGraphiQl(GraphQlPath, "/v1/something");*/
             app.UseMvc();
         }
     }

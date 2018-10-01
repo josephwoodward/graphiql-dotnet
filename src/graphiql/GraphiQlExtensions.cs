@@ -14,21 +14,25 @@ namespace GraphiQl
         public static IApplicationBuilder UseGraphiQl(this IApplicationBuilder app)
             => UseGraphiQl(app, DefaultPath);
 
+        public static IApplicationBuilder UseGraphiQl(this IApplicationBuilder app, string path)
+            => UseGraphiQl(app, path, null);
+
+        /// <param name="path"></param>
         /// <param name="apiPath">In some scenarios it makes sense to specify the API path and file server path independently
         /// Examples: hosting in IIS in a virtual application (myapp.com/1.0/...) or hosting API and documentation separately</param>
-        public static IApplicationBuilder UseGraphiQl(this IApplicationBuilder app, string fileServerPath, string apiPath = null)
+        public static IApplicationBuilder UseGraphiQl(this IApplicationBuilder app, string path, string apiPath)
         {
-            if (string.IsNullOrWhiteSpace(fileServerPath))
-                throw new ArgumentException(nameof(fileServerPath));
+            if (string.IsNullOrWhiteSpace(path))
+                throw new ArgumentException(nameof(path));
 
-            var p = fileServerPath.EndsWith("/") ? fileServerPath : $"{fileServerPath}/" + "graphql-path.js";
-            app.Map(p, x => WritePathJavaScript(x, apiPath ?? fileServerPath));
+            var filePath = path.EndsWith("/") ? path : $"{path}/" + "graphql-path.js";
+            var uri = !string.IsNullOrWhiteSpace(apiPath) ? apiPath : path; 
+            app.Map(filePath, x => WritePathJavaScript(x, uri));
 
-            return UseGraphiQlImp(app, x => x.SetPath(fileServerPath));
+            return UseGraphiQlImp(app, x => x.SetPath(path));
         }
 
-        private static IApplicationBuilder UseGraphiQlImp(this IApplicationBuilder app,
-            Action<GraphiQlConfig> setConfig)
+        private static IApplicationBuilder UseGraphiQlImp(this IApplicationBuilder app, Action<GraphiQlConfig> setConfig)
         {
             if (app == null)
                 throw new ArgumentNullException(nameof(app));
