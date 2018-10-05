@@ -63,3 +63,18 @@ By default GraphiQL lives on the aforementioned `/graphql` endpoint, however it 
 ```csharp
 app.UseGraphiQl('/whatever/graphiql');
 ```
+
+You can also specify GraphiQl endpoint independent of your GraphQL API, this is especially useful if you're hosting in IIS in a virtual application (ie `myapp.com/1.0/...`) or hosting API and documentation separately.
+
+```csharp
+public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
+{
+    app.UseGraphiQl("/graphql", "/v1/yourapi");
+
+    app.UseMvc();
+}
+```
+
+Now navigating to `/graphql` will display the GraphiQL UI, but your GraphQL API will live under the `/v1/yourapi` route.
+
+
