@@ -5,7 +5,7 @@
     <PackageTags>graphql;graphiql;asp.net core;.net core</PackageTags>
     <title>GraphiQL ASP.NET Core Middleware</title>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <VersionPrefix>1.2.0-beta</VersionPrefix>
+    <VersionPrefix>1.2.0-beta-2</VersionPrefix>
     <Authors>Joseph Woodward</Authors>
     <Description>GraphiQL available as middleware for ASP.NET Core</Description>
     <PackageIconUrl>https://raw.githubusercontent.com/JosephWoodward/graphiql-dotnet/master/assets/logo_128_128.png</PackageIconUrl>
