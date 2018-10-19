@@ -2,11 +2,11 @@
   <PropertyGroup>
     <AssemblyName>GraphiQL</AssemblyName>
     <PackageId>GraphiQL</PackageId>
-    <PackageTags>graphql;graphiql;asp.net core;.net core</PackageTags>
+    <PackageTags>graphql,graphiql,asp.net core,.net core</PackageTags>
     <title>GraphiQL ASP.NET Core Middleware</title>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <VersionPrefix>1.2.0-beta-2</VersionPrefix>
-    <Authors>Joseph Woodward</Authors>
+    <VersionPrefix>1.2.0</VersionPrefix>
+    <Authors>JosephWoodward</Authors>
     <Description>GraphiQL available as middleware for ASP.NET Core</Description>
     <PackageIconUrl>https://raw.githubusercontent.com/JosephWoodward/graphiql-dotnet/master/assets/logo_128_128.png</PackageIconUrl>
     <PackageProjectUrl>https://github.com/JosephWoodward/graphiql-dotnet</PackageProjectUrl>
@@ -14,9 +14,9 @@
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="2.0.1" />
-    <PackageReference Include="Microsoft.AspNetCore.StaticFiles" Version="2.0.1" />
-    <PackageReference Include="Microsoft.Extensions.FileProviders.Embedded" Version="2.0.0" />
-    <PackageReference Include="Microsoft.Extensions.FileProviders.Composite" Version="2.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore.StaticFiles" Version="2.1.1" />
+    <PackageReference Include="Microsoft.Extensions.FileProviders.Embedded" Version="2.1.1" />
+    <PackageReference Include="Microsoft.Extensions.FileProviders.Composite" Version="2.1.1" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="./assets/**/*.*" />
