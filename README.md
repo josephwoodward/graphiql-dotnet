@@ -10,7 +10,7 @@ GraphiQL an in-browser IDE for exploring GraphQL ([see here]( https://github.com
 
 GraphiQL features include:
 
-- Syntax highlighting
+- Syntax highlighting.
 - Intelligent type ahead of fields, arguments, types, and more.
 - Real-time error highlighting and reporting.
 - Automatic query completion.
