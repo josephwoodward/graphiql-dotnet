@@ -10,7 +10,7 @@ namespace GraphiQl
     public static class GraphiQlExtensions
     {
         private const string DefaultPath = "/graphql";
-        
+
         public static IApplicationBuilder UseGraphiQl(this IApplicationBuilder app)
             => UseGraphiQl(app, DefaultPath);
 
@@ -25,7 +25,10 @@ namespace GraphiQl
             if (string.IsNullOrWhiteSpace(path))
                 throw new ArgumentException(nameof(path));
 
-            var filePath = path.EndsWith("/") ? path : $"{path}/" + "graphql-path.js";
+            if (path.EndsWith("/"))
+                throw new ArgumentException("GraphiQL path must not end in a slash", nameof(path));
+
+            var filePath = $"{path}/graphql-path.js";
             var uri = !string.IsNullOrWhiteSpace(apiPath) ? apiPath : path; 
             app.Map(filePath, x => WritePathJavaScript(x, uri));
 
