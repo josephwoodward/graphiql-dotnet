@@ -20,7 +20,7 @@ jobs:
     - name: Run tests
       run: dotnet test --configuration Release --no-build --nologo
     - if: github.event_name == 'push' && (github.ref == 'refs/heads/master' || contains(github.ref, 'tags'))
-      # name: Push CI
-      # run: ./push.sh ${{ secrets.FEEDZ_KEY }}
+      name: Push CI
+      run: ./push.sh ${{ secrets.FEEDZ_KEY }}
 env:
   DOTNET_CLI_TELEMETRY_OPTOUT: 1
