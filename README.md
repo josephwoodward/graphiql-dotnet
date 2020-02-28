@@ -2,6 +2,8 @@
 
 # GraphiQL.NET
 
+![.NET Core](https://github.com/JosephWoodward/graphiql-dotnet/workflows/.NET%20Core/badge.svg)
+
 GraphiQL middleware for ASP.NET Core - try the [live demo here](http://graphql.org/swapi-graphql/).
 
 ## What is GraphiQL?
