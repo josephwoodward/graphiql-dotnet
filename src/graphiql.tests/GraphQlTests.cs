@@ -11,7 +11,7 @@ namespace GraphiQl.tests
     {
         private readonly HostFixture _fixture;
 
-        public GraphQlTests(HostFixture fixture) : base(runHeadless: false)
+        public GraphQlTests(HostFixture fixture) : base(runHeadless: true)
         {
             _fixture = fixture;
         }

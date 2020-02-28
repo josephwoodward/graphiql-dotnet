@@ -14,19 +14,9 @@ namespace GraphiQl.tests
             options.AddArgument("--remote-debugging-port=9222");
             options.AddArgument("--disable-dev-shm-usage");
             options.AddArgument("--no-sandbox");
-            /*
+    
             if (runHeadless)
-                options.AddArgument("headless");
-                */
-            
-            /*
-            options.add_argument('headless')
-            options.add_argument('--disable-infobars')
-            options.add_argument('--disable-dev-shm-usage')
-            options.add_argument('--no-sandbox')
-            options.add_argument('--remote-debugging-port=9222')
-            */
-            
+                options.AddArgument("--headless");
             
             Driver = new ChromeDriver(options);
         }
@@ -37,7 +27,7 @@ namespace GraphiQl.tests
             {
                 await execute(Driver);
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 throw;
             }
