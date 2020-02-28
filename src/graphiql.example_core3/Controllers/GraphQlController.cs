@@ -3,10 +3,9 @@ using GraphiQl.example.GraphQl;
 using GraphiQl.example.GraphQl.Models;
 using GraphQL;
 using GraphQL.Types;
-using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Mvc;
 
-namespace GraphiQl.example.Controllers
+namespace graphiql.example_core3.Controllers
 {
     [Route(Startup.GraphQlPath)]
     public class GraphQlController : Controller

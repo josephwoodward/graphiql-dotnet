@@ -4,8 +4,6 @@ VisualStudioVersion = 16.0.29709.97
 MinimumVisualStudioVersion = 15.0.26124.0
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "graphiql", "graphiql\graphiql.csproj", "{F6C1A94C-2AAC-4509-A766-7F315B3E2436}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "graphiql.example", "graphiql.example\graphiql.example.csproj", "{CEE00A37-308F-40D1-A0EF-4D6B4C6521C7}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "graphiql.tests", "graphiql.tests\graphiql.tests.csproj", "{B8F1EEAA-24AF-4B78-B577-D6E8675D780B}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "graphiql.example_core3", "graphiql.example_core3\graphiql.example_core3.csproj", "{7F0E6B8B-72C3-4C12-8354-FF798B737CE8}"
@@ -20,10 +18,6 @@ Global
 		{F6C1A94C-2AAC-4509-A766-7F315B3E2436}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F6C1A94C-2AAC-4509-A766-7F315B3E2436}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F6C1A94C-2AAC-4509-A766-7F315B3E2436}.Release|Any CPU.Build.0 = Release|Any CPU
-		{CEE00A37-308F-40D1-A0EF-4D6B4C6521C7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{CEE00A37-308F-40D1-A0EF-4D6B4C6521C7}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{CEE00A37-308F-40D1-A0EF-4D6B4C6521C7}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{CEE00A37-308F-40D1-A0EF-4D6B4C6521C7}.Release|Any CPU.Build.0 = Release|Any CPU
 		{B8F1EEAA-24AF-4B78-B577-D6E8675D780B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{B8F1EEAA-24AF-4B78-B577-D6E8675D780B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B8F1EEAA-24AF-4B78-B577-D6E8675D780B}.Release|Any CPU.ActiveCfg = Release|Any CPU
