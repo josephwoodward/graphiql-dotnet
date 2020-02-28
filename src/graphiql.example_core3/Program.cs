@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore;
+﻿using graphiql.example_core3;
+using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 
 namespace GraphiQl.example
