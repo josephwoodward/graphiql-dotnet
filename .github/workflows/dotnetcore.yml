@@ -18,7 +18,7 @@ jobs:
     - name: Build with dotnet
       run: dotnet build src/ --configuration Release --nologo
     - name: Run tests
-      run: dotnet test src/graphiql.tests/ --configuration Release --no-build --nologo
+      run: dotnet test src/graphiql.tests/ --configuration Development --nologo
     # - if: github.event_name == 'push' && (github.ref == 'refs/heads/master' || contains(github.ref, 'tags'))
     #   name: Push CI
     #   run: ./push.sh ${{ secrets.FEEDZ_KEY }}
