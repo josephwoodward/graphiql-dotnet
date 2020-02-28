@@ -12,9 +12,12 @@ namespace GraphiQl.tests
         {
             var options = new ChromeOptions();
             options.AddArgument("--remote-debugging-port=9222");
+            options.AddArgument("--disable-dev-shm-usage");
             options.AddArgument("--no-sandbox");
+            /*
             if (runHeadless)
                 options.AddArgument("headless");
+                */
             
             /*
             options.add_argument('headless')
