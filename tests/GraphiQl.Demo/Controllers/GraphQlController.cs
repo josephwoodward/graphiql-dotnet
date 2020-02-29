@@ -5,7 +5,7 @@ using GraphQL;
 using GraphQL.Types;
 using Microsoft.AspNetCore.Mvc;
 
-namespace graphiql.example_core3.Controllers
+namespace graphiql.example.Controllers
 {
     [Route(Startup.GraphQlPath)]
     public class GraphQlController : Controller
