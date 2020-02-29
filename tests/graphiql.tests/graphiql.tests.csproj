@@ -2,7 +2,6 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
-
     <IsPackable>false</IsPackable>
   </PropertyGroup>
 
@@ -19,7 +18,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\graphiql.example_core3\graphiql.example_core3.csproj" />
-    <ProjectReference Include="..\graphiql\graphiql.csproj" />
   </ItemGroup>
 
 </Project>

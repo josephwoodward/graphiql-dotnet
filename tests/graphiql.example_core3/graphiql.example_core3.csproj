@@ -10,6 +10,6 @@
     <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="3.1.1" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\graphiql\graphiql.csproj" />
+    <ProjectReference Include="..\..\src\graphiql\graphiql.csproj" />
   </ItemGroup>
 </Project>
