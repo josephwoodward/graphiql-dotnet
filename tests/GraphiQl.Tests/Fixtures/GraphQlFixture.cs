@@ -1,7 +1,7 @@
 using System.Threading.Tasks;
 using GraphiQl;
-using graphiql.example;
-using graphiql.example.Controllers;
+using GraphiQl.Demo;
+using GraphiQl.Demo.Controllers;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.ApplicationParts;
@@ -10,7 +10,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Newtonsoft.Json;
 
-namespace graphiql.tests.Fixtures
+namespace graphiql.Tests.Fixtures
 {
     public class GraphQlFixture
     {

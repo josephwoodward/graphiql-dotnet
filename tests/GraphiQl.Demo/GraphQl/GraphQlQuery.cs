@@ -1,6 +1,6 @@
 ﻿using GraphQL;
 
-namespace GraphiQl.example.GraphQl
+namespace GraphiQl.Demo.GraphQl
 {
     public class GraphQlQuery
     {

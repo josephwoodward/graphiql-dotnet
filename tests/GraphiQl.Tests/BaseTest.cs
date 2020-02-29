@@ -2,7 +2,7 @@ using System;
 using System.Threading.Tasks;
 using OpenQA.Selenium.Chrome;
 
-namespace GraphiQl.tests
+namespace GraphiQl.Tests
 {
     public abstract class BaseTest
     {

@@ -1,6 +1,6 @@
 {
   "profiles": {
-    "graphiql.example_core3": {
+    "GraphiQl.Demp": {
       "commandName": "Project",
       "launchBrowser": true,
       "launchUrl": "graphql",

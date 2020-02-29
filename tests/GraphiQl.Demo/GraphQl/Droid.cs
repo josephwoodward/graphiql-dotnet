@@ -1,4 +1,4 @@
-﻿namespace GraphiQl.example.GraphQl
+﻿namespace GraphiQl.Demo.GraphQl
 {
     public class Droid
     {
