@@ -6,7 +6,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 
-namespace graphiql.example_core3
+namespace graphiql.example
 {
 	public class Startup
 	{

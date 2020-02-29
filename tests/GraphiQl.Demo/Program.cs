@@ -1,4 +1,4 @@
-﻿using graphiql.example_core3;
+﻿using graphiql.example;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 

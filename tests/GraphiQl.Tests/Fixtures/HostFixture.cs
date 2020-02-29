@@ -1,7 +1,7 @@
 using System.Threading.Tasks;
 using GraphiQl;
-using graphiql.example_core3;
-using graphiql.example_core3.Controllers;
+using graphiql.example;
+using graphiql.example.Controllers;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;

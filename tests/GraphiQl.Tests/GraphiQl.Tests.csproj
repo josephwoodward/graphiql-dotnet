@@ -2,8 +2,9 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
-
     <IsPackable>false</IsPackable>
+    <AssemblyName>GraphiQl.Tests</AssemblyName>
+    <RootNamespace>GraphiQl.Tests</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>
@@ -18,8 +19,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\graphiql.example_core3\graphiql.example_core3.csproj" />
-    <ProjectReference Include="..\graphiql\graphiql.csproj" />
+    <ProjectReference Include="..\GraphiQl.Demo\GraphiQl.Demo.csproj" />
   </ItemGroup>
 
 </Project>
