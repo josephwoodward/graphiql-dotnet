@@ -1,11 +1,11 @@
 using System.Threading.Tasks;
-using GraphiQl.example.GraphQl;
-using GraphiQl.example.GraphQl.Models;
+using GraphiQl.Demo.GraphQl;
+using GraphiQl.Demo.GraphQl.Models;
 using GraphQL;
 using GraphQL.Types;
 using Microsoft.AspNetCore.Mvc;
 
-namespace graphiql.example.Controllers
+namespace GraphiQl.Demo.Controllers
 {
     [Route(Startup.GraphQlPath)]
     public class GraphQlController : Controller

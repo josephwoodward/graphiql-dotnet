@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.26124.0
 MinimumVisualStudioVersion = 15.0.26124.0
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "graphiql", "src\graphiql\graphiql.csproj", "{7DECE8E2-141A-4A14-A460-A7985C3AA2E8}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GraphiQl", "src\GraphiQl\GraphiQl.csproj", "{7DECE8E2-141A-4A14-A460-A7985C3AA2E8}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GraphiQl.Tests", "tests\GraphiQl.Tests\GraphiQl.Tests.csproj", "{0C2E2EB0-8FA2-4AB9-8642-72E50A830DBA}"
 EndProject

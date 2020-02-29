@@ -1,8 +1,7 @@
-﻿using graphiql.example;
-using Microsoft.AspNetCore;
+﻿using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 
-namespace GraphiQl.example
+namespace GraphiQl.Demo
 {
     public class Program
     {

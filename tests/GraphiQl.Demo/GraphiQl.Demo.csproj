@@ -1,8 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Web">
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
-    <AssemblyName>GraphiQl.Example</AssemblyName>
-    <RootNamespace>GraphiQl.Example</RootNamespace>
   </PropertyGroup>
   <ItemGroup>
     <Folder Include="wwwroot" />
@@ -12,6 +10,6 @@
     <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="3.1.1" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\src\graphiql\graphiql.csproj" />
+    <ProjectReference Include="..\..\src\GraphiQl\GraphiQl.csproj" />
   </ItemGroup>
 </Project>

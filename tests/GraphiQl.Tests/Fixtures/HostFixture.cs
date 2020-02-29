@@ -1,17 +1,10 @@
 using System.Threading.Tasks;
-using GraphiQl;
-using graphiql.example;
-using graphiql.example.Controllers;
+using GraphiQl.Demo;
 using Microsoft.AspNetCore;
-using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Mvc.ApplicationParts;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using Newtonsoft.Json;
 using Xunit;
 
-namespace graphiql.tests.Fixtures
+namespace GraphiQl.Tests.Fixtures
 {
     public class HostFixture : IAsyncLifetime
     {

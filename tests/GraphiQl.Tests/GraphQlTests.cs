@@ -1,11 +1,11 @@
 using System;
 using System.Text.Json;
 using System.Threading.Tasks;
-using graphiql.tests.Fixtures;
+using GraphiQl.Tests.Fixtures;
 using Shouldly;
 using Xunit;
 
-namespace GraphiQl.tests
+namespace GraphiQl.Tests
 {
     public class GraphQlTests : BaseTest, IClassFixture<HostFixture>
     {

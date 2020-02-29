@@ -1,6 +1,6 @@
 ﻿using GraphQL.Types;
 
-namespace GraphiQl.example.GraphQl.Models
+namespace GraphiQl.Demo.GraphQl.Models
 {
     public class DroidType : ObjectGraphType<Droid>
     {
