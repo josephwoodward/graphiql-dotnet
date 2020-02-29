@@ -61,7 +61,7 @@ namespace GraphiQl
         private static IFileProvider BuildFileProvider()
         {
             var assembly = typeof(GraphiQlExtensions).GetTypeInfo().Assembly;
-            var embeddedFileProvider = new EmbeddedFileProvider(assembly, "graphiql.assets");
+            var embeddedFileProvider = new EmbeddedFileProvider(assembly, "GraphiQl.assets");
 
             var fileProvider = new CompositeFileProvider(
                 embeddedFileProvider
