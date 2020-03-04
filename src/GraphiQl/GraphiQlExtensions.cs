@@ -3,7 +3,10 @@ using System.Reflection;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.StaticFiles;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.FileProviders;
+using Microsoft.Extensions.Options;
 
 namespace GraphiQl
 {
@@ -11,12 +14,37 @@ namespace GraphiQl
     {
         private const string DefaultPath = "/graphql";
 
+        public static IServiceCollection AddGraphiQl(this IServiceCollection services)
+        {
+            return services.AddGraphiQl(null);
+        }
+
+        public static IServiceCollection AddGraphiQl(this IServiceCollection services, Action<GraphiQlOptions> configure)
+        {
+            if (configure != null)
+            {
+                services.Configure(configure);
+            }
+
+            services.TryAddTransient<IConfigureOptions<GraphiQlOptions>, GraphiQlOptionsSetup>();
+            /*
+            services.TryAddEnumerable(ServiceDescriptor.Transient<IConfigureOptions<GraphiQlOptions>, GraphiQlOptionsSetup>());
+            */
+
+            return services;
+        }
+
         public static IApplicationBuilder UseGraphiQl(this IApplicationBuilder app)
-            => UseGraphiQl(app, DefaultPath);
+        {
+            return app.UseGraphiQl(DefaultPath);
+        }
 
         public static IApplicationBuilder UseGraphiQl(this IApplicationBuilder app, string path)
-            => UseGraphiQl(app, path, null);
+        {
+            return app.UseGraphiQl(path, null);
+        }
 
+        /// <param name="app"></param>
         /// <param name="path"></param>
         /// <param name="apiPath">In some scenarios it makes sense to specify the API path and file server path independently
         /// Examples: hosting in IIS in a virtual application (myapp.com/1.0/...) or hosting API and documentation separately</param>
@@ -27,6 +55,7 @@ namespace GraphiQl
 
             if (path.EndsWith("/"))
                 throw new ArgumentException("GraphiQL path must not end in a slash", nameof(path));
+
 
             var filePath = $"{path}/graphql-path.js";
             var uri = !string.IsNullOrWhiteSpace(apiPath) ? apiPath : path; 
@@ -41,33 +70,30 @@ namespace GraphiQl
                 throw new ArgumentNullException(nameof(app));
             if (setConfig == null)
                 throw new ArgumentNullException(nameof(setConfig));
-
+            
             var config = new GraphiQlConfig();
             setConfig(config);
 
-            var fileServerOptions = new FileServerOptions
+            var options = new FileServerOptions
             {
                 RequestPath = config.Path,
-                FileProvider = BuildFileProvider(),
+                FileProvider = CreateFileProvider(),
                 EnableDefaultFiles = true,
                 StaticFileOptions = {ContentTypeProvider = new FileExtensionContentTypeProvider()}
             };
 
-            app.UseFileServer(fileServerOptions);
+            app.UseMiddleware<GraphiQlMiddleware>();
+            app.UseFileServer(options);
 
             return app;
         }
 
-        private static IFileProvider BuildFileProvider()
+        private static IFileProvider CreateFileProvider()
         {
-            var assembly = typeof(GraphiQlExtensions).GetTypeInfo().Assembly;
-            var embeddedFileProvider = new EmbeddedFileProvider(assembly, "GraphiQl.assets");
+            var fileProvider =
+                new EmbeddedFileProvider(typeof(GraphiQlExtensions).GetTypeInfo().Assembly, "GraphiQl.assets");
 
-            var fileProvider = new CompositeFileProvider(
-                embeddedFileProvider
-            );
-
-            return fileProvider;
+            return new FileProviderProxy(fileProvider);
         }
 
         private static void WritePathJavaScript(IApplicationBuilder app, string path)
