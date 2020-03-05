@@ -15,7 +15,6 @@ namespace GraphiQl.Tests.OverrideGraphQlPathTests
     public class ConfigureOptionsSetup : SeleniumTest, IAsyncLifetime
     {
         private readonly IWebHost _host;
-        private const string GraphQlApiPath = "/custom-path";
 
         public ConfigureOptionsSetup()
         {
@@ -75,7 +74,7 @@ namespace GraphiQl.Tests.OverrideGraphQlPathTests
         {
             public void Configure(GraphiQlOptions options)
             {
-                options.GraphQlApiPath = GraphQlApiPath;
+                options.GraphQlApiPath = Startup.CustomGraphQlPath;
             }
         }
     }
