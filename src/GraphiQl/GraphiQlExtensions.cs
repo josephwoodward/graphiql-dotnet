@@ -66,9 +66,7 @@ namespace GraphiQl
                 return h.Response.WriteAsync($"var graphqlPath='{path}';");
             });
 
-        [Obsolete(
-            "This overload has been marked as obsolete, please configure via IServiceCollection.AddGraphiQl(..) instead or consult the documentation",
-            true)]
+        [Obsolete("This overload has been marked as obsolete, please configure via IServiceCollection.AddGraphiQl(..) instead or consult the documentation", true)]
         public static IApplicationBuilder UseGraphiQl(this IApplicationBuilder app, string path)
             => throw new NotImplementedException();
 
