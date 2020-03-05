@@ -28,10 +28,6 @@ namespace GraphiQl
             {
                 options.GraphiQlPath = "/graphql";
             }
-            else
-            {
-                var x = options.GraphiQlPath;
-            }
 
             if (options.GraphQlApiPath == null)
             {
