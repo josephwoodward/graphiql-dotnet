@@ -21,39 +21,13 @@ namespace GraphiQl.Tests.Fixtures
                 .Build();
         }
 
-        /*
-        public IWebHost Build()
-        {
-            var config = new ConfigurationBuilder().Build();
-            var host = new WebHostBuilder()
-                .UseConfiguration(config)
-                .UseKestrel()
-                .UseUrls("http://*:5001")
-                .ConfigureServices(s =>
-                {
-                    s.AddMvc()
-                        .AddNewtonsoftJson(o =>
-                            o.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore);
-                    s.AddControllers()
-                        .PartManager.ApplicationParts.Add(new AssemblyPart(typeof(GraphQlController).Assembly));
-                })
-                .Configure(app =>
-                {
-                    app.UseGraphiQl("/graphql");
-                    app.UseRouting().UseEndpoints(routing => routing.MapControllers());
-                });
-
-            return host.Build();
-        }
-        */
-
         public async Task InitializeAsync()
             => await _host.StartAsync().ConfigureAwait(false);
 
-        public Task DisposeAsync()
+        public async Task DisposeAsync()
         {
+            await _host.StopAsync().ConfigureAwait(false);
             _host.Dispose();
-            return Task.CompletedTask;
         }
     }
 }

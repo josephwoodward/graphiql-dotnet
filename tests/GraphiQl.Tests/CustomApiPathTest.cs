@@ -12,12 +12,12 @@ using Xunit;
 
 namespace GraphiQl.Tests
 {
-    public class PathTests : BaseTest, IAsyncLifetime
+    public class CustomApiPathTest : BaseTest, IAsyncLifetime
     {
         private readonly IWebHost _host;
-        private const string GraphiQlPath = "/custom-path";
+        private const string GraphQlApiPath = "/custom-path";
 
-        public PathTests()
+        public CustomApiPathTest()
         {
             _host = WebHost.CreateDefaultBuilder()
                 .ConfigureServices(serviceCollection =>
@@ -34,7 +34,7 @@ namespace GraphiQl.Tests
             => await _host.StartAsync().ConfigureAwait(false);
 
         [Fact]
-        public void GraphiQlPathCanBeSet()
+        public void GraphQlApiPathCanBeSet()
         {
             // TODO: Use PageModel
 
@@ -45,7 +45,7 @@ namespace GraphiQl.Tests
             // Act
             RunTest( driver =>
             {
-                Driver.Navigate().GoToUrl($"http://localhost:5001{GraphiQlPath}?query=" + Uri.EscapeDataString(query));
+                Driver.Navigate().GoToUrl($"http://localhost:5001/graphql?query=" + Uri.EscapeDataString(query));
                 var button = Driver.FindElementByClassName("execute-button");
                 button?.Click();
 
@@ -75,7 +75,7 @@ namespace GraphiQl.Tests
         {
             public void Configure(GraphiQlOptions options)
             {
-                options.GraphiQlPath = GraphiQlPath;
+                options.GraphQlApiPath = GraphQlApiPath;
             }
         }
     }

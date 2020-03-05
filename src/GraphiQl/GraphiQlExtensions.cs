@@ -30,25 +30,10 @@ namespace GraphiQl
         }
 
         public static IApplicationBuilder UseGraphiQl(this IApplicationBuilder app)
-            => app.UseGraphiQl(DefaultGraphQlPath);
-
-        public static IApplicationBuilder UseGraphiQl(this IApplicationBuilder app, string path)
-            => app.UseGraphiQl(path, null);
-
-        /// <param name="app"></param>
-        /// <param name="path"></param>
-        /// <param name="apiPath">In some scenarios it makes sense to specify the API path and file server path independently
-        /// Examples: hosting in IIS in a virtual application (myapp.com/1.0/...) or hosting API and documentation separately</param>
-        public static IApplicationBuilder UseGraphiQl(this IApplicationBuilder app, string path, string apiPath)
         {
             var options = app.ApplicationServices.GetService<IOptions<GraphiQlOptions>>().Value;
 
-            if (options.GraphiQlPath != null && options.GraphiQlPath.EndsWith("/"))
-            {
-                throw new ArgumentException("GraphiQL path must not end in a slash", nameof(path));
-            }
-
-            var filePath = $"{options.GraphiQlPath}/graphql-path.js";
+            var filePath = $"{options.GraphiQlPath.TrimEnd('/')}/graphql-path.js";
             var graphQlPath = !string.IsNullOrWhiteSpace(options.GraphQlApiPath) ? options.GraphQlApiPath : DefaultGraphQlPath; 
             app.Map(filePath, x => WritePathJavaScript(x, graphQlPath));
 
@@ -80,5 +65,15 @@ namespace GraphiQl
                 h.Response.ContentType = "application/javascript";
                 return h.Response.WriteAsync($"var graphqlPath='{path}';");
             });
+
+        [Obsolete(
+            "This overload has been marked as obsolete, please configure via IServiceCollection.AddGraphiQl(..) instead or consult the documentation",
+            true)]
+        public static IApplicationBuilder UseGraphiQl(this IApplicationBuilder app, string path)
+            => throw new NotImplementedException();
+
+        [Obsolete("This overload has been marked as obsolete, please configure via IServiceCollection.AddGraphiQl(..) instead or consult the documentation", true)]
+        public static IApplicationBuilder UseGraphiQl(this IApplicationBuilder app, string path, string apiPath) 
+            => throw new NotImplementedException();
     }
 }

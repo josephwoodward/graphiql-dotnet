@@ -30,7 +30,7 @@ namespace GraphiQl.Tests
         {
             // Arrange + Act
             var result = string.Empty;
-            RunTest( async driver =>
+            RunTest(driver =>
             {
                 Driver.Navigate().GoToUrl("http://localhost:5001/graphql");
                 Thread.Sleep(2000);
