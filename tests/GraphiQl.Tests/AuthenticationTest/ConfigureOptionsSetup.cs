@@ -1,3 +1,4 @@
+using System;
 using System.Threading;
 using System.Threading.Tasks;
 using GraphiQl.Demo;
@@ -33,7 +34,11 @@ namespace GraphiQl.Tests.AuthenticationTest
             RunTest(driver =>
             {
                 Driver.Navigate().GoToUrl("http://localhost:5001/graphql");
-                Thread.Sleep(2000);
+
+                Driver.Manage()
+                    .Timeouts()
+                    .ImplicitWait = TimeSpan.FromSeconds(2);
+
                 result = Driver.PageSource;
             });
 

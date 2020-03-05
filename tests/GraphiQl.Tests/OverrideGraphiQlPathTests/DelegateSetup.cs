@@ -53,7 +53,9 @@ namespace GraphiQl.Tests.OverrideGraphiQlPathTests
                 var button = Driver.FindElementByClassName("execute-button");
                 button?.Click();
 
-                Thread.Sleep(2000);
+                Driver.Manage()
+                    .Timeouts()
+                    .ImplicitWait = TimeSpan.FromSeconds(2);
 
                 // UGH!
                 result = Driver
