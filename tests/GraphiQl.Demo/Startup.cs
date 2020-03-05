@@ -10,6 +10,7 @@ namespace GraphiQl.Demo
 	public class Startup
 	{
 		public const string GraphQlPath = "/graphql";
+		public const string CustomGraphQlPath = "/custom-path";
 
 		public Startup(IConfiguration configuration)
 		{
@@ -18,14 +19,18 @@ namespace GraphiQl.Demo
 
 		public IConfiguration Configuration { get; }
 
+		public virtual void ConfigureGraphQl(IServiceCollection services) 
+			=> services.AddGraphiQl();
+
 		public void ConfigureServices(IServiceCollection services)
 		{
 			services
-				.AddGraphiQl()
 				.AddMvc()
 				.AddNewtonsoftJson(
 					options => options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore
 				);
+
+			ConfigureGraphQl(services);
 		}
 
 		public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ILoggerFactory loggerFactory)

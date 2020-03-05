@@ -4,22 +4,36 @@ using GraphiQl.Demo;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Options;
 using Shouldly;
 using Xunit;
 
-namespace GraphiQl.Tests
+namespace GraphiQl.Tests.AuthenticationTest
 {
-    public class AuthenticationTests : BaseTest, IAsyncLifetime
+    public class CustomStartup : Startup
+    {
+        public CustomStartup(IConfiguration configuration) : base(configuration) {}
+
+        public override void ConfigureGraphQl(IServiceCollection services)
+            => services.AddGraphiQl(x => x.IsAuthenticated = context =>
+            {
+                context.Response.Clear();
+                context.Response.StatusCode = 400;
+                context.Response.WriteAsync("This page requires authentication");
+
+                return Task.FromResult(false);
+            });
+    }
+
+    public class DelegateSetup : SeleniumTest, IAsyncLifetime
     {
         private readonly IWebHost _host;
 
-        public AuthenticationTests()
+        public DelegateSetup()
         {
             _host = WebHost.CreateDefaultBuilder()
-                .ConfigureServices(x => { x.AddTransient<IConfigureOptions<GraphiQlOptions>,GraphiQlTestOptionsSetup>(); })
-                .UseStartup<Startup>()
+                .UseStartup<CustomStartup>()
                 .UseKestrel()
                 .UseUrls("http://*:5001")
                 .Build();
@@ -48,21 +62,6 @@ namespace GraphiQl.Tests
         {
             _host.Dispose();
             return Task.CompletedTask;
-        }
-
-        internal class GraphiQlTestOptionsSetup : IConfigureOptions<GraphiQlOptions>
-        {
-            public void Configure(GraphiQlOptions options)
-            {
-                options.IsAuthenticated = context =>
-                {
-                    context.Response.Clear();
-                    context.Response.StatusCode = 400;
-                    context.Response.WriteAsync("This page requires authentication");
-
-                    return Task.FromResult(false);
-                };
-            }
         }
     }
 }

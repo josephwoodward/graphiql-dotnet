@@ -7,11 +7,11 @@ using Xunit;
 
 namespace GraphiQl.Tests
 {
-    public class GraphQlTests : BaseTest, IClassFixture<HostFixture>
+    public class BasicTest : SeleniumTest, IClassFixture<HostFixture>
     {
         private readonly HostFixture _fixture;
 
-        public GraphQlTests(HostFixture fixture)
+        public BasicTest(HostFixture fixture)
         {
             _fixture = fixture;
         }

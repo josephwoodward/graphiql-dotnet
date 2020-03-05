@@ -4,17 +4,14 @@ using OpenQA.Selenium.Chrome;
 
 namespace GraphiQl.Tests
 {
-    public abstract class BaseTest
+    public abstract class SeleniumTest
     {
         protected ChromeDriver Driver { get; }
-        protected bool RunHeadless { get; set;  } = false;
+        protected bool RunHeadless { get; set;  } = true;
 
-        protected BaseTest()
+        protected SeleniumTest()
         {
             var options = new ChromeOptions();
-            /*
-            options.AddArgument("--remote-debugging-port=9222");
-            */
             options.AddArgument("--disable-dev-shm-usage");
             options.AddArgument("--no-sandbox");
     

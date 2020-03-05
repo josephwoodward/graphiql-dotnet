@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace GraphiQl.Demo.Controllers
 {
     [Route(Startup.GraphQlPath)]
-    [Route("/custom-path")]
+    [Route(Startup.CustomGraphQlPath)]
     public class GraphQlController : Controller
     {
         [HttpPost]

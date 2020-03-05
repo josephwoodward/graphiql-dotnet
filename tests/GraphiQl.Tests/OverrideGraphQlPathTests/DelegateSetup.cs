@@ -5,26 +5,29 @@ using System.Threading.Tasks;
 using GraphiQl.Demo;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Options;
 using Shouldly;
 using Xunit;
 
-namespace GraphiQl.Tests
+namespace GraphiQl.Tests.OverrideGraphQlPathTests
 {
-    public class PathTests : BaseTest, IAsyncLifetime
+    public class CustomStartup : Startup
+    {
+        public CustomStartup(IConfiguration configuration) : base(configuration) {}
+
+        public override void ConfigureGraphQl(IServiceCollection services) 
+            => services.AddGraphiQl(x => x.GraphQlApiPath = CustomGraphQlPath);
+    }
+
+    public class DelegateSetup : SeleniumTest, IAsyncLifetime
     {
         private readonly IWebHost _host;
-        private const string GraphiQlPath = "/custom-path";
 
-        public PathTests()
+        public DelegateSetup()
         {
             _host = WebHost.CreateDefaultBuilder()
-                .ConfigureServices(serviceCollection =>
-                {
-                    serviceCollection.AddTransient<IConfigureOptions<GraphiQlOptions>, GraphiQlTestOptionsSetup>();
-                })
-                .UseStartup<Startup>()
+                .UseStartup<CustomStartup>()
                 .UseKestrel()
                 .UseUrls("http://*:5001")
                 .Build();
@@ -34,7 +37,7 @@ namespace GraphiQl.Tests
             => await _host.StartAsync().ConfigureAwait(false);
 
         [Fact]
-        public void GraphiQlPathCanBeSet()
+        public void CanOverrideGraphQlPath()
         {
             // TODO: Use PageModel
 
@@ -45,7 +48,7 @@ namespace GraphiQl.Tests
             // Act
             RunTest( driver =>
             {
-                Driver.Navigate().GoToUrl($"http://localhost:5001{GraphiQlPath}?query=" + Uri.EscapeDataString(query));
+                Driver.Navigate().GoToUrl($"http://localhost:5001/graphql?query=" + Uri.EscapeDataString(query));
                 var button = Driver.FindElementByClassName("execute-button");
                 button?.Click();
 
@@ -69,14 +72,6 @@ namespace GraphiQl.Tests
         {
             await _host.StopAsync();
             _host.Dispose();
-        }
-
-        internal class GraphiQlTestOptionsSetup : IConfigureOptions<GraphiQlOptions>
-        {
-            public void Configure(GraphiQlOptions options)
-            {
-                options.GraphiQlPath = GraphiQlPath;
-            }
         }
     }
 }
