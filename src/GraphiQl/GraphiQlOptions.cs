@@ -7,25 +7,36 @@ namespace GraphiQl
 {
     public class GraphiQlOptions
     {
-        public string GraphiQlPath { get; set; } = "/graphql";
+        public string GraphiQlPath { get; set; }
 
-        public string GraphQlApiPath { get; set; } = "/graphql";
+        public string GraphQlApiPath { get; set; }
 
         public Func<HttpContext, Task<bool>> IsAuthenticated { get; set; }
+
+        public GraphiQlOptions()
+        {
+            GraphiQlPath = "/graphql";
+            GraphQlApiPath = "/graphql";
+        }
     }
 
     public class GraphiQlOptionsSetup : IConfigureOptions<GraphiQlOptions>
     {
         public void Configure(GraphiQlOptions options)
         {
-            options.IsAuthenticated = async context =>
+            if (options.GraphiQlPath == null)
             {
-                context.Response.Clear();
-                context.Response.StatusCode = 404;
-                await context.Response.WriteAsync("Boo");
+                options.GraphiQlPath = "/graphql";
+            }
+            else
+            {
+                var x = options.GraphiQlPath;
+            }
 
-                return false;
-            };
+            if (options.GraphQlApiPath == null)
+            {
+                options.GraphQlApiPath = "/graphql";
+            }
         }
     }
 }

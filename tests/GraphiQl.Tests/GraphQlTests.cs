@@ -1,6 +1,6 @@
 using System;
 using System.Text.Json;
-using System.Threading.Tasks;
+using System.Threading;
 using GraphiQl.Tests.Fixtures;
 using Shouldly;
 using Xunit;
@@ -11,13 +11,13 @@ namespace GraphiQl.Tests
     {
         private readonly HostFixture _fixture;
 
-        public GraphQlTests(HostFixture fixture) : base(runHeadless: true)
+        public GraphQlTests(HostFixture fixture)
         {
             _fixture = fixture;
         }
 
         [Fact]
-        public async Task CanQueryGraphQl()
+        public void CanQueryGraphQl()
         {
             // TODO: Use PageModel
 
@@ -26,13 +26,13 @@ namespace GraphiQl.Tests
             var query = @"{hero{id,name}}";
                 
             // Act
-            await RunTest(async driver =>
+            RunTest( driver =>
             {
                 Driver.Navigate().GoToUrl(_fixture.GraphiQlUri + Uri.EscapeDataString(query));
                 var button = Driver.FindElementByClassName("execute-button");
                 button?.Click();
 
-                await Task.Delay(2000);
+                Thread.Sleep(2000);
 
                 // UGH!
                 result = Driver

@@ -30,7 +30,7 @@ namespace GraphiQl.Demo
 
 		public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ILoggerFactory loggerFactory)
 		{
-			app.UseGraphiQl(GraphQlPath);
+			app.UseGraphiQl();
 			app.UseRouting().UseEndpoints(
 				routing => routing.MapControllers()
 			);

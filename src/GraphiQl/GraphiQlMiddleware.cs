@@ -19,7 +19,8 @@ namespace GraphiQl
         public async Task Invoke(HttpContext context)
         {
             if (context.Request.Path.Equals(_options.GraphiQlPath, StringComparison.OrdinalIgnoreCase)
-                && !await _options?.IsAuthenticated.Invoke(context))
+                && _options.IsAuthenticated != null
+                && !await _options.IsAuthenticated.Invoke(context))
             {
                 return;
             }

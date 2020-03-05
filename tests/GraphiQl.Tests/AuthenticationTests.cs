@@ -1,13 +1,10 @@
-using System;
-using System.Text.Json;
+using System.Threading;
 using System.Threading.Tasks;
 using GraphiQl.Demo;
 using Microsoft.AspNetCore;
-using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Options;
 using Shouldly;
 using Xunit;
@@ -16,9 +13,9 @@ namespace GraphiQl.Tests
 {
     public class AuthenticationTests : BaseTest, IAsyncLifetime
     {
-        private IWebHost _host;
+        private readonly IWebHost _host;
 
-        public AuthenticationTests() : base(runHeadless: false)
+        public AuthenticationTests()
         {
             _host = WebHost.CreateDefaultBuilder()
                 .ConfigureServices(x => { x.AddTransient<IConfigureOptions<GraphiQlOptions>,GraphiQlTestOptionsSetup>(); })
@@ -29,14 +26,14 @@ namespace GraphiQl.Tests
         }
 
         [Fact]
-        public async Task RequiresAuthentication()
+        public void RequiresAuthentication()
         {
             // Arrange + Act
             var result = string.Empty;
-            await RunTest( async driver =>
+            RunTest( async driver =>
             {
                 Driver.Navigate().GoToUrl("http://localhost:5001/graphql");
-                await Task.Delay(500);
+                Thread.Sleep(2000);
                 result = Driver.PageSource;
             });
 
@@ -52,28 +49,20 @@ namespace GraphiQl.Tests
             _host.Dispose();
             return Task.CompletedTask;
         }
-        
-        private static void RequireAuthMap(IApplicationBuilder app)
-        {
-            app.Run(async context =>
-            {
-                await context.Response.WriteAsync("This page requires authentication");
-            });
-        }
-    }
 
-    internal class GraphiQlTestOptionsSetup : IConfigureOptions<GraphiQlOptions>
-    {
-        public void Configure(GraphiQlOptions options)
+        internal class GraphiQlTestOptionsSetup : IConfigureOptions<GraphiQlOptions>
         {
-            options.IsAuthenticated = context =>
+            public void Configure(GraphiQlOptions options)
             {
-                context.Response.Clear();
-                context.Response.StatusCode = 400;
-                context.Response.WriteAsync("This page requires authentication");
+                options.IsAuthenticated = context =>
+                {
+                    context.Response.Clear();
+                    context.Response.StatusCode = 400;
+                    context.Response.WriteAsync("This page requires authentication");
 
-                return Task.FromResult(false);
-            };
+                    return Task.FromResult(false);
+                };
+            }
         }
     }
 }
