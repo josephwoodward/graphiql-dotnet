@@ -45,7 +45,7 @@ namespace graphiql.Tests.Fixtures
                 })
                 .Configure(app =>
                 {
-                    app.UseGraphiQl("/graphql");
+                    app.UseGraphiQl();
                     app.UseRouting().UseEndpoints(routing => routing.MapControllers());
                 });
 

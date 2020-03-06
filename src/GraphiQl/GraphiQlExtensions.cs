@@ -3,80 +3,75 @@ using System.Reflection;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.StaticFiles;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.FileProviders;
+using Microsoft.Extensions.Options;
 
 namespace GraphiQl
 {
     public static class GraphiQlExtensions
     {
-        private const string DefaultPath = "/graphql";
+        private const string DefaultGraphQlPath = "/graphql";
 
-        public static IApplicationBuilder UseGraphiQl(this IApplicationBuilder app)
-            => UseGraphiQl(app, DefaultPath);
+        public static IServiceCollection AddGraphiQl(this IServiceCollection services)
+            => services.AddGraphiQl(null);
 
-        public static IApplicationBuilder UseGraphiQl(this IApplicationBuilder app, string path)
-            => UseGraphiQl(app, path, null);
-
-        /// <param name="path"></param>
-        /// <param name="apiPath">In some scenarios it makes sense to specify the API path and file server path independently
-        /// Examples: hosting in IIS in a virtual application (myapp.com/1.0/...) or hosting API and documentation separately</param>
-        public static IApplicationBuilder UseGraphiQl(this IApplicationBuilder app, string path, string apiPath)
+        public static IServiceCollection AddGraphiQl(this IServiceCollection services, Action<GraphiQlOptions> configure)
         {
-            if (string.IsNullOrWhiteSpace(path))
-                throw new ArgumentException(nameof(path));
+            if (configure != null)
+            {
+                services.Configure(configure);
+            }
 
-            if (path.EndsWith("/"))
-                throw new ArgumentException("GraphiQL path must not end in a slash", nameof(path));
-
-            var filePath = $"{path}/graphql-path.js";
-            var uri = !string.IsNullOrWhiteSpace(apiPath) ? apiPath : path; 
-            app.Map(filePath, x => WritePathJavaScript(x, uri));
-
-            return UseGraphiQlImp(app, x => x.SetPath(path));
+            services.TryAdd(ServiceDescriptor.Transient<IConfigureOptions<GraphiQlOptions>, GraphiQlOptionsSetup>());
+            
+            return services;
         }
 
-        private static IApplicationBuilder UseGraphiQlImp(this IApplicationBuilder app, Action<GraphiQlConfig> setConfig)
+        public static IApplicationBuilder UseGraphiQl(this IApplicationBuilder app)
+        {
+            var options = app.ApplicationServices.GetService<IOptions<GraphiQlOptions>>().Value;
+
+            var filePath = $"{options.GraphiQlPath.TrimEnd('/')}/graphql-path.js";
+            var graphQlPath = !string.IsNullOrWhiteSpace(options.GraphQlApiPath) ? options.GraphQlApiPath : DefaultGraphQlPath; 
+            app.Map(filePath, x => WritePathJavaScript(x, graphQlPath));
+
+            return UseGraphiQlImp(app, options);
+        }
+
+        private static IApplicationBuilder UseGraphiQlImp(this IApplicationBuilder app, GraphiQlOptions options)
         {
             if (app == null)
                 throw new ArgumentNullException(nameof(app));
-            if (setConfig == null)
-                throw new ArgumentNullException(nameof(setConfig));
-
-            var config = new GraphiQlConfig();
-            setConfig(config);
 
             var fileServerOptions = new FileServerOptions
             {
-                RequestPath = config.Path,
-                FileProvider = BuildFileProvider(),
+                RequestPath = options.GraphiQlPath,
+                FileProvider = new EmbeddedFileProvider(typeof(GraphiQlExtensions).GetTypeInfo().Assembly, "GraphiQl.assets"),
                 EnableDefaultFiles = true,
                 StaticFileOptions = {ContentTypeProvider = new FileExtensionContentTypeProvider()}
             };
 
+            app.UseMiddleware<GraphiQlMiddleware>();
             app.UseFileServer(fileServerOptions);
 
             return app;
         }
 
-        private static IFileProvider BuildFileProvider()
-        {
-            var assembly = typeof(GraphiQlExtensions).GetTypeInfo().Assembly;
-            var embeddedFileProvider = new EmbeddedFileProvider(assembly, "GraphiQl.assets");
-
-            var fileProvider = new CompositeFileProvider(
-                embeddedFileProvider
-            );
-
-            return fileProvider;
-        }
-
-        private static void WritePathJavaScript(IApplicationBuilder app, string path)
-        {
+        private static void WritePathJavaScript(IApplicationBuilder app, string path) =>
             app.Run(h =>
             {
                 h.Response.ContentType = "application/javascript";
                 return h.Response.WriteAsync($"var graphqlPath='{path}';");
             });
-        }
+
+        [Obsolete("This overload has been marked as obsolete, please configure via IServiceCollection.AddGraphiQl(..) instead or consult the documentation", true)]
+        public static IApplicationBuilder UseGraphiQl(this IApplicationBuilder app, string path)
+            => throw new NotImplementedException();
+
+        [Obsolete("This overload has been marked as obsolete, please configure via IServiceCollection.AddGraphiQl(..) instead or consult the documentation", true)]
+        public static IApplicationBuilder UseGraphiQl(this IApplicationBuilder app, string path, string apiPath) 
+            => throw new NotImplementedException();
     }
 }

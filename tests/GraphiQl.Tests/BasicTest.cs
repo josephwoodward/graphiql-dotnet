@@ -1,23 +1,23 @@
 using System;
 using System.Text.Json;
-using System.Threading.Tasks;
+using System.Threading;
 using GraphiQl.Tests.Fixtures;
 using Shouldly;
 using Xunit;
 
 namespace GraphiQl.Tests
 {
-    public class GraphQlTests : BaseTest, IClassFixture<HostFixture>
+    public class BasicTest : SeleniumTest, IClassFixture<HostFixture>
     {
         private readonly HostFixture _fixture;
 
-        public GraphQlTests(HostFixture fixture) : base(runHeadless: true)
+        public BasicTest(HostFixture fixture)
         {
             _fixture = fixture;
         }
 
         [Fact]
-        public async Task CanQueryGraphQl()
+        public void CanQueryGraphQl()
         {
             // TODO: Use PageModel
 
@@ -26,17 +26,17 @@ namespace GraphiQl.Tests
             var query = @"{hero{id,name}}";
                 
             // Act
-            await RunTest(async driver =>
+            RunTest( driver =>
             {
-                Driver.Navigate().GoToUrl(_fixture.GraphiQlUri + Uri.EscapeDataString(query));
-                var button = Driver.FindElementByClassName("execute-button");
+                driver.Navigate().GoToUrl(_fixture.GraphiQlUri + Uri.EscapeDataString(query));
+                var button = driver.FindElementByClassName("execute-button");
                 button?.Click();
-
-                await Task.Delay(2000);
+                
+                //TODO: https://www.selenium.dev/documentation/en/webdriver/waits/
+                Thread.Sleep(2000);
 
                 // UGH!
-                result = Driver
-                    .FindElementByClassName("result-window").Text
+                result = driver.FindElementByClassName("result-window").Text
                     .Replace("\n", "")
                     .Replace(" ", "");
             });

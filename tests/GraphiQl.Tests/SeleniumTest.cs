@@ -1,39 +1,39 @@
 using System;
-using System.Threading.Tasks;
+using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
 
 namespace GraphiQl.Tests
 {
-    public abstract class BaseTest
+    public abstract class SeleniumTest
     {
-        protected ChromeDriver Driver { get; }
+        private ChromeDriver Driver { get; }
+        protected bool RunHeadless { get; set;  } = true;
 
-        protected BaseTest(bool runHeadless)
+        protected SeleniumTest()
         {
             var options = new ChromeOptions();
-            options.AddArgument("--remote-debugging-port=9222");
             options.AddArgument("--disable-dev-shm-usage");
             options.AddArgument("--no-sandbox");
     
-            if (runHeadless)
+            if (RunHeadless)
                 options.AddArgument("--headless");
             
             Driver = new ChromeDriver(options);
         }
 
-        protected async Task RunTest(Func<ChromeDriver, Task> execute)
+        protected void RunTest(Action<ChromeDriver> execute)
         {
             try
             {
-                await execute(Driver);
+                execute(Driver);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                throw;
+                throw ex;
             }
             finally
             {
-                Driver.Close();
+                Driver.Quit();
             }
         }
     }
