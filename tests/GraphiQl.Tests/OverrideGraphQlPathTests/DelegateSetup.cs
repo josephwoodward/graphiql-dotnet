@@ -1,6 +1,5 @@
 using System;
 using System.Text.Json;
-using System.Threading;
 using System.Threading.Tasks;
 using GraphiQl.Demo;
 using Microsoft.AspNetCore;
@@ -48,16 +47,16 @@ namespace GraphiQl.Tests.OverrideGraphQlPathTests
             // Act
             RunTest( driver =>
             {
-                Driver.Navigate().GoToUrl($"http://localhost:5001/graphql?query=" + Uri.EscapeDataString(query));
-                var button = Driver.FindElementByClassName("execute-button");
+                driver.Navigate().GoToUrl("http://localhost:5001/graphql?query=" + Uri.EscapeDataString(query));
+                var button = driver.FindElementByClassName("execute-button");
                 button?.Click();
 
-                Driver.Manage()
+                driver.Manage()
                     .Timeouts()
                     .ImplicitWait = TimeSpan.FromSeconds(2);
 
                 // UGH!
-                result = Driver
+                result = driver
                     .FindElementByClassName("result-window").Text
                     .Replace("\n", "")
                     .Replace(" ", "");

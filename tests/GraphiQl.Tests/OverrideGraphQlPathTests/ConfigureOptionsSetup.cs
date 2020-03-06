@@ -44,16 +44,20 @@ namespace GraphiQl.Tests.OverrideGraphQlPathTests
             // Act
             RunTest( driver =>
             {
-                Driver.Navigate().GoToUrl($"http://localhost:5001/graphql?query=" + Uri.EscapeDataString(query));
-                var button = Driver.FindElementByClassName("execute-button");
+                driver.Navigate().GoToUrl($"http://localhost:5001/graphql?query=" + Uri.EscapeDataString(query));
+                var button = driver.FindElementByClassName("execute-button");
                 button?.Click();
 
-                Driver.Manage()
-                    .Timeouts()
-                    .ImplicitWait = TimeSpan.FromSeconds(2);
+                Thread.Sleep(2000);
 
+                /*
+                var x = Driver.FindElement(B)
+                var foo = new WebDriverWait(driver, TimeSpan.FromSeconds(3))
+                    .Until(drv => drv.FindElement(By.Name("q")));
+                    */
+                
                 // UGH!
-                result = Driver
+                result = driver
                     .FindElementByClassName("result-window").Text
                     .Replace("\n", "")
                     .Replace(" ", "");

@@ -33,13 +33,13 @@ namespace GraphiQl.Tests.AuthenticationTest
             var result = string.Empty;
             RunTest(driver =>
             {
-                Driver.Navigate().GoToUrl("http://localhost:5001/graphql");
+                driver.Navigate().GoToUrl("http://localhost:5001/graphql");
 
-                Driver.Manage()
+                driver.Manage()
                     .Timeouts()
                     .ImplicitWait = TimeSpan.FromSeconds(2);
 
-                result = Driver.PageSource;
+                result = driver.PageSource;
             });
 
             // Assert

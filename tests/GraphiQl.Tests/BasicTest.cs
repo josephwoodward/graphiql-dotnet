@@ -1,5 +1,6 @@
 using System;
 using System.Text.Json;
+using System.Threading;
 using GraphiQl.Tests.Fixtures;
 using Shouldly;
 using Xunit;
@@ -27,17 +28,15 @@ namespace GraphiQl.Tests
             // Act
             RunTest( driver =>
             {
-                Driver.Navigate().GoToUrl(_fixture.GraphiQlUri + Uri.EscapeDataString(query));
-                var button = Driver.FindElementByClassName("execute-button");
+                driver.Navigate().GoToUrl(_fixture.GraphiQlUri + Uri.EscapeDataString(query));
+                var button = driver.FindElementByClassName("execute-button");
                 button?.Click();
-
-                Driver.Manage()
-                    .Timeouts()
-                    .ImplicitWait = TimeSpan.FromSeconds(2);
+                
+                //TODO: https://www.selenium.dev/documentation/en/webdriver/waits/
+                Thread.Sleep(2000);
 
                 // UGH!
-                result = Driver
-                    .FindElementByClassName("result-window").Text
+                result = driver.FindElementByClassName("result-window").Text
                     .Replace("\n", "")
                     .Replace(" ", "");
             });

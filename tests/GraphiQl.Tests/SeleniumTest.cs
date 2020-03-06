@@ -6,7 +6,7 @@ namespace GraphiQl.Tests
 {
     public abstract class SeleniumTest
     {
-        protected ChromeDriver Driver { get; }
+        private ChromeDriver Driver { get; }
         protected bool RunHeadless { get; set;  } = true;
 
         protected SeleniumTest()
@@ -21,7 +21,7 @@ namespace GraphiQl.Tests
             Driver = new ChromeDriver(options);
         }
 
-        protected void RunTest(Action<IWebDriver> execute)
+        protected void RunTest(Action<ChromeDriver> execute)
         {
             try
             {
@@ -33,7 +33,7 @@ namespace GraphiQl.Tests
             }
             finally
             {
-                Driver.Close();
+                Driver.Quit();
             }
         }
     }

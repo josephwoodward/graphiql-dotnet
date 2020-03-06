@@ -49,16 +49,16 @@ namespace GraphiQl.Tests.OverrideGraphiQlPathTests
             // Act
             RunTest( driver =>
             {
-                Driver.Navigate().GoToUrl($"http://localhost:5001{Startup.CustomGraphQlPath}?query=" + Uri.EscapeDataString(query));
-                var button = Driver.FindElementByClassName("execute-button");
+                driver.Navigate().GoToUrl($"http://localhost:5001{Startup.CustomGraphQlPath}?query=" + Uri.EscapeDataString(query));
+                var button = driver.FindElementByClassName("execute-button");
                 button?.Click();
 
-                Driver.Manage()
+                driver.Manage()
                     .Timeouts()
                     .ImplicitWait = TimeSpan.FromSeconds(2);
 
                 // UGH!
-                result = Driver
+                result = driver
                     .FindElementByClassName("result-window").Text
                     .Replace("\n", "")
                     .Replace(" ", "");
