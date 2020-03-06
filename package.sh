@@ -1,3 +1,4 @@
+#!/usr/bin/env bash
+
 rm -rf ./package
-cd ./src/graphiql/
-dotnet pack ./graphiql.csproj -o ../../package/ -c release
+dotnet pack ./src/GraphiQl/GraphiQl.csproj  -o ./package/ -c release

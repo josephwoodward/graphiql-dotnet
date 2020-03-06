@@ -5,28 +5,43 @@
     <PackageTags>graphql,graphiql,asp.net core,.net core</PackageTags>
     <title>GraphiQL ASP.NET Core Middleware</title>
     <TargetFrameworks>netstandard2.0;netcoreapp3.0;netcoreapp3.1</TargetFrameworks>
-    <VersionPrefix>1.3.0</VersionPrefix>
     <Authors>JosephWoodward</Authors>
     <Description>GraphiQL available as middleware for ASP.NET Core</Description>
     <PackageIconUrl>https://raw.githubusercontent.com/JosephWoodward/graphiql-dotnet/master/assets/logo_128_128.png</PackageIconUrl>
     <PackageProjectUrl>https://github.com/JosephWoodward/graphiql-dotnet</PackageProjectUrl>
-    <PackageLicenseUrl>https://github.com/JosephWoodward/graphiql-dotnet/blob/master/LICENSE</PackageLicenseUrl>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <AllowedOutputExtensionsInPackageBuildOutputFolder>$(AllowedOutputExtensionsInPackageBuildOutputFolder);.pdb</AllowedOutputExtensionsInPackageBuildOutputFolder>
+    <PackageIcon>logo_128_128.png</PackageIcon>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <PublishRepositoryUrl>true</PublishRepositoryUrl>
+    <MinVerVerbosity>diag</MinVerVerbosity>
+    <MinVerTagPrefix>v</MinVerTagPrefix>
+    <OutputType>Library</OutputType>
+    <MinVerSkip Condition="'$(Configuration)' == 'Debug'">true</MinVerSkip>
   </PropertyGroup>
+  <ItemGroup>
+    <None Include="../../assets/logo_128_128.png" Pack="true" PackagePath="/" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="MinVer" Version="2.1.0">
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0" PrivateAssets="All">
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
   <ItemGroup Condition=" '$(TargetFramework)' == 'netstandard2.0' ">
     <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="2.0.1" />
     <PackageReference Include="Microsoft.AspNetCore.StaticFiles" Version="2.1.1" />
     <PackageReference Include="Microsoft.Extensions.FileProviders.Embedded" Version="2.1.1" />
-    <PackageReference Include="Microsoft.Extensions.FileProviders.Composite" Version="2.1.1" />
   </ItemGroup>
   <ItemGroup Condition=" '$(TargetFramework)' == 'netcoreapp3.0' ">
     <FrameworkReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.Extensions.FileProviders.Embedded" Version="3.0.2" />
-    <PackageReference Include="Microsoft.Extensions.FileProviders.Composite" Version="3.0.2" />
   </ItemGroup>
   <ItemGroup Condition=" '$(TargetFramework)' == 'netcoreapp3.1' ">
     <FrameworkReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.Extensions.FileProviders.Embedded" Version="3.1.1" />
-    <PackageReference Include="Microsoft.Extensions.FileProviders.Composite" Version="3.1.1" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="./assets/**/*.*" />
