@@ -44,11 +44,12 @@ namespace GraphiQl
         {
             if (app == null)
                 throw new ArgumentNullException(nameof(app));
-
+            
+            var provider = new EmbeddedFileProvider(typeof(GraphiQlExtensions).GetTypeInfo().Assembly, "GraphiQl.assets");
             var fileServerOptions = new FileServerOptions
             {
                 RequestPath = options.GraphiQlPath,
-                FileProvider = new EmbeddedFileProvider(typeof(GraphiQlExtensions).GetTypeInfo().Assembly, "GraphiQl.assets"),
+                FileProvider = new AssetProvider(provider),
                 EnableDefaultFiles = true,
                 StaticFileOptions = {ContentTypeProvider = new FileExtensionContentTypeProvider()}
             };
