@@ -12,10 +12,10 @@ namespace GraphiQl
 {
     public static class GraphiQlExtensions
     {
-        private const string DefaultGraphQlPath = "/graphql";
-
+        /*
         public static IServiceCollection AddGraphiQl(this IServiceCollection services)
             => services.AddGraphiQl(null);
+            */
 
         public static IServiceCollection AddGraphiQl(this IServiceCollection services, Action<GraphiQlOptions> configure)
         {
@@ -25,54 +25,52 @@ namespace GraphiQl
             }
 
             services.TryAdd(ServiceDescriptor.Transient<IConfigureOptions<GraphiQlOptions>, GraphiQlOptionsSetup>());
-            
+
             return services;
         }
 
         public static IApplicationBuilder UseGraphiQl(this IApplicationBuilder app)
-        {
-            var options = app.ApplicationServices.GetService<IOptions<GraphiQlOptions>>().Value;
+            => app.UseGraphiQl(null);
 
-            var filePath = $"{options.GraphiQlPath.TrimEnd('/')}/graphql-path.js";
-            var graphQlPath = !string.IsNullOrWhiteSpace(options.GraphQlApiPath) ? options.GraphQlApiPath : DefaultGraphQlPath; 
-            app.Map(filePath, x => WritePathJavaScript(x, graphQlPath));
+        public static IApplicationBuilder UseGraphiQl(this IApplicationBuilder app, string path)
+            => app.UseGraphiQl(path, null);
 
-            return UseGraphiQlImp(app, options);
-        }
+        public static IApplicationBuilder UseGraphiQl(this IApplicationBuilder app, string path, string apiPath)
+            => app.UseGraphiQlImp(path, apiPath);
 
-        private static IApplicationBuilder UseGraphiQlImp(this IApplicationBuilder app, GraphiQlOptions options)
+        private static IApplicationBuilder UseGraphiQlImp(this IApplicationBuilder app, string path, string apiPath )
         {
             if (app == null)
+            {
                 throw new ArgumentNullException(nameof(app));
-            
-            var provider = new EmbeddedFileProvider(typeof(GraphiQlExtensions).GetTypeInfo().Assembly, "GraphiQl.assets");
+            }
+
+            var options = app.ApplicationServices.GetService<IOptions<GraphiQlOptions>>().Value;
+
+            var graphiQlPath = !string.IsNullOrWhiteSpace(path) ? path : options.GraphiQlPath;
+            var graphQlApiPath = !string.IsNullOrWhiteSpace(apiPath) ? apiPath : options.GraphQlApiPath;
+
             var fileServerOptions = new FileServerOptions
             {
-                RequestPath = options.GraphiQlPath,
-                FileProvider = new AssetProvider(provider),
+                RequestPath = graphiQlPath,
+                FileProvider = new AssetProvider(new EmbeddedFileProvider(typeof(GraphiQlExtensions).GetTypeInfo().Assembly, "GraphiQl.assets")),
                 EnableDefaultFiles = true,
                 StaticFileOptions = {ContentTypeProvider = new FileExtensionContentTypeProvider()}
             };
 
             app.UseMiddleware<GraphiQlMiddleware>();
+
+            app.Map($"{graphiQlPath.TrimEnd('/')}/graphql-path.js", x => WritePathJavaScript(x, graphQlApiPath));
             app.UseFileServer(fileServerOptions);
 
             return app;
         }
 
-        private static void WritePathJavaScript(IApplicationBuilder app, string path) =>
-            app.Run(h =>
+        private static void WritePathJavaScript(IApplicationBuilder app, string path)
+            => app.Run(h =>
             {
                 h.Response.ContentType = "application/javascript";
                 return h.Response.WriteAsync($"var graphqlPath='{path}';");
             });
-
-        [Obsolete("This overload has been marked as obsolete, please configure via IServiceCollection.AddGraphiQl(..) instead or consult the documentation", true)]
-        public static IApplicationBuilder UseGraphiQl(this IApplicationBuilder app, string path)
-            => throw new NotImplementedException();
-
-        [Obsolete("This overload has been marked as obsolete, please configure via IServiceCollection.AddGraphiQl(..) instead or consult the documentation", true)]
-        public static IApplicationBuilder UseGraphiQl(this IApplicationBuilder app, string path, string apiPath) 
-            => throw new NotImplementedException();
     }
 }
