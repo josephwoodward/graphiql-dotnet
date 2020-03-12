@@ -1,5 +1,6 @@
 using System;
 using System.Text.Json;
+using System.Threading;
 using System.Threading.Tasks;
 using GraphiQl.Demo;
 using Microsoft.AspNetCore;
@@ -51,9 +52,7 @@ namespace GraphiQl.Tests.OverrideGraphQlPathTests
                 var button = driver.FindElementByClassName("execute-button");
                 button?.Click();
 
-                driver.Manage()
-                    .Timeouts()
-                    .ImplicitWait = TimeSpan.FromSeconds(2);
+                Thread.Sleep(2000);
 
                 // UGH!
                 result = driver

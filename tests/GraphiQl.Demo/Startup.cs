@@ -19,8 +19,7 @@ namespace GraphiQl.Demo
 
 		public IConfiguration Configuration { get; }
 
-		public virtual void ConfigureGraphQl(IServiceCollection services) 
-			=> services.AddGraphiQl();
+		public virtual void ConfigureGraphQl(IServiceCollection services) {}
 
 		public void ConfigureServices(IServiceCollection services)
 		{

@@ -7,7 +7,7 @@ namespace GraphiQl.Tests
     public abstract class SeleniumTest
     {
         private ChromeDriver Driver { get; }
-        protected bool RunHeadless { get; set;  } = true;
+        protected bool RunHeadless { get; set;  } = false;
 
         protected SeleniumTest()
         {
