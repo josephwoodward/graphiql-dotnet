@@ -129,8 +129,7 @@ Then you just have to register it with your Ioc Container:
 public void ConfigureServices(IServiceCollection services)
 {
     ...
-cs
-services.AddTransient<IConfigureOptions<GraphiQlOptions>, GraphiQlTestOptionsSetup>();z
+    services.AddTransient<IConfigureOptions<GraphiQlOptions>, GraphiQlTestOptionsSetup>();z
     ...
 }
 ---
