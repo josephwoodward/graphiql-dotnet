@@ -6,25 +6,20 @@
 
 GraphiQL middleware for ASP.NET Core - try the [live demo here](http://graphql.org/swapi-graphql/).
 
-## What is GraphiQL?
+## What is GraphiQL.NET?
 
-GraphiQL an in-browser IDE for exploring GraphQL ([see here]( https://github.com/graphql/graphiql)). Normally in order to set GraphiQL up you need to do so via Node.
+GraphiQL.NET is a piece of .NET Core middleware that bundles graphiql into it saving you from managing additional frontend dependencies, whilst also giving you control over the routes it's avaialble on any provide you with a means of authentication. 
 
-GraphiQL features include:
+GraphiQL.NET features include:
 
-- Syntax highlighting.
-- Intelligent type ahead of fields, arguments, types, and more.
-- Real-time error highlighting and reporting.
-- Automatic query completion.
-- Run and inspect query results.
+- The full GraphiQl experience
+- Customisation of GraphiQL routes
+- Authentication
 
 ![GraphiQL for ASP.NET Core](https://raw.githubusercontent.com/JosephWoodward/graphiql-dotnet/master/assets/screenshot.png)
 
-## What is GraphiQL.NET?
 
-GraphiQL.NET saves you from needing any additional dependencies by allowing you to include the GraphiQL in-browser editor directly into your ASP.NET Core application via middleware, allowing you to explore and test your GraphQL endpoint with ease.
-
-## Installation
+## Setup
 
 The GraphiQL.NET middleware can be [found on NuGet here](https://www.nuget.org/packages/graphiql/)
 
@@ -50,21 +45,25 @@ Once installed you can add GraphiQL.NET to your ASP.NET Core application by addi
 
 public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
 {
+    // Adding this makes graphiql UI available at /graphql 
     app.UseGraphiQl();
 
     app.UseMvc();
 }
 ```
 
-After that simply navigate to `/graphql` in your browser to start using GraphiQL.
-
 ## Configuration
+---
+### Configure Graphiql route
 
-By default GraphiQL lives on the aforementioned `/graphql` endpoint, however it can be changed by passing your chosen path to the `app.UseGraphiQl();` entry point method:
+By default GraphiQL lives on the `/graphql` endpoint, however this can be changed by passing your chosen path to the `app.UseGraphiQl();` entry point method:
 
 ```csharp
 app.UseGraphiQl('/whatever/graphiql');
 ```
+
+
+### Configure Graphql API address
 
 You can also specify GraphiQl endpoint independent of your GraphQL API, this is especially useful if you're hosting in IIS in a virtual application (ie `myapp.com/1.0/...`) or hosting API and documentation separately.
 
@@ -79,4 +78,59 @@ public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerF
 
 Now navigating to `/graphql` will display the GraphiQL UI, but your GraphQL API will live under the `/v1/yourapi` route.
 
+### Configuration via `IServiceCollection`
 
+Alternatively you can configure the aforementioned routes via `IServiceCollection` within `ConfigureServices` or your `Startup.cs` file:
+
+```csharp
+//Startup.cs
+
+public void ConfigureServices(IServiceCollection services)
+{
+    ...
+
+	services.AddGraphiQl(x =>
+	{
+		x.GraphiQlPath = "/graphiql-ui";
+		x.GraphQlApiPath = "graphql";
+	});
+
+    ...
+}
+
+public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ILoggerFactory loggerFactory)
+{
+	app.UseGraphiQl();
+	...
+}
+```
+
+### Configuration via `ConfigureOptions<T>`
+
+You can also use the `IConfigureOptions<T>` interface:
+
+```csharp
+// GraphiQlTestOptionsSetup.cs
+
+internal class GraphiQlTestOptionsSetup : IConfigureOptions<GraphiQlOptions>
+{
+    public void Configure(GraphiQlOptions options)
+    {
+        options.GraphiQlPath = "/graphiql-ui";
+        options.GraphQlApiPath = "graphql";
+    }
+}
+
+```
+Then you just have to register it with your Ioc Container:
+```csharp
+//Startup.cs
+
+public void ConfigureServices(IServiceCollection services)
+{
+    ...
+cs
+services.AddTransient<IConfigureOptions<GraphiQlOptions>, GraphiQlTestOptionsSetup>();z
+    ...
+}
+---
